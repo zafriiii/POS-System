@@ -1,1 +1,17 @@
-/build
+# Gradle files
+.gradle/
+**/build/
+
+# Local SDK & properties
+local.properties
+
+# Firebase config
+app/google-services.json
+
+# IDE files
+.idea/
+*.iml
+
+# OS-specific
+.DS_Store
+Thumbs.db
