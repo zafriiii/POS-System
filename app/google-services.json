@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "493828068419",
+    "project_id": "food-pos-zb",
+    "storage_bucket": "food-pos-zb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493828068419:android:e13e35358f3787d5bdf0f6",
+        "android_client_info": {
+          "package_name": "com.example.posapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfZHJfNXqdh10L6hfpiVoRRNAXa4peS84"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
