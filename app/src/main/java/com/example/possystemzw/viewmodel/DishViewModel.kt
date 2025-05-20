@@ -83,4 +83,31 @@ class DishViewModel : ViewModel() {
     fun removeFromCart(dishId: String) {
         _cartItems.value = _cartItems.value.filterNot { it.dish.id == dishId }
     }
+    fun finalizeOrder(tableNumber: String, cashPaid: Double) {
+        val orderData = hashMapOf(
+            "dineOption" to dineOption.value,
+            "tableNumber" to tableNumber,
+            "cashPaid" to cashPaid,
+            "subtotal" to cartItems.value.sumOf { it.quantity * it.dish.price },
+            "timestamp" to System.currentTimeMillis(),
+            "items" to cartItems.value.map {
+                mapOf(
+                    "name" to it.dish.name,
+                    "price" to it.dish.price,
+                    "quantity" to it.quantity,
+                    "note" to it.note
+                )
+            }
+        )
+
+        Firebase.firestore.collection("orders")
+            .add(orderData)
+            .addOnSuccessListener {
+                println("Order saved to Firestore")
+                _cartItems.value = emptyList() // Optional: reset cart after order
+            }
+            .addOnFailureListener { e ->
+                println("Failed to save order: ${e.message}")
+            }
+    }
 }

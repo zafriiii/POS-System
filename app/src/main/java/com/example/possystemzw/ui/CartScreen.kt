@@ -12,11 +12,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.possystemzw.model.CartItem
 import com.example.possystemzw.viewmodel.DishViewModel
 
 @Composable
-fun CartScreen(viewModel: DishViewModel) {
+fun CartScreen(
+    viewModel: DishViewModel,
+    onCheckout: () -> Unit // ✅ Added callback for navigation
+) {
     val cartItems = viewModel.cartItems.collectAsState().value
     val subtotal = cartItems.sumOf { it.quantity * it.dish.price }
 
@@ -85,7 +87,7 @@ fun CartScreen(viewModel: DishViewModel) {
         Spacer(Modifier.height(8.dp))
 
         Button(
-            onClick = { /* navigate to payment screen */ },
+            onClick = { onCheckout() }, // ✅ Navigate to Payment screen
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFFF7E00)),
             modifier = Modifier.fillMaxWidth()
         ) {

@@ -17,7 +17,10 @@ import com.example.possystemzw.viewmodel.DishViewModel
 import com.example.possystemzw.model.Dish
 
 @Composable
-fun HomeScreen(viewModel: DishViewModel = viewModel()) {
+fun HomeScreen(
+    viewModel: DishViewModel = viewModel(),
+    onCheckout: () -> Unit // ✅ Hook to move to PaymentScreen
+) {
     val selectedCategory = viewModel.selectedCategory.collectAsState().value
     val dishes = viewModel.dishes.collectAsState().value
     val currentDineOption = viewModel.dineOption.collectAsState().value
@@ -89,7 +92,7 @@ fun HomeScreen(viewModel: DishViewModel = viewModel()) {
             }
         }
 
-        // Right: Cart Panel
-        CartScreen(viewModel = viewModel)
+        // Right: Cart Panel (pass onCheckout to CartScreen)
+        CartScreen(viewModel = viewModel, onCheckout = onCheckout)
     }
 }

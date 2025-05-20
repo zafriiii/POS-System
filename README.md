@@ -1,3 +1,5 @@
+## POS System
+
 This project is developed as part of lab practice for associates enrolled in **CIT6344 - Mobile App Development** class.
 
 **Disclaimer:**  
@@ -10,5 +12,4 @@ Unauthorized copying may be considered plagiarism.
 
 ---
 
-## License
 This project is intended for academic and educational use only.
