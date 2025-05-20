@@ -2,6 +2,7 @@ package com.example.possystemzw.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.example.possystemzw.model.Dish
+import com.example.possystemzw.model.CartItem
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,16 +17,20 @@ class DishViewModel : ViewModel() {
     private val _selectedCategory = MutableStateFlow("Hot Dishes")
     val selectedCategory: StateFlow<String> = _selectedCategory.asStateFlow()
 
-    // List of dishes shown in UI
+    // Dish list
     private val _dishes = MutableStateFlow<List<Dish>>(emptyList())
     val dishes: StateFlow<List<Dish>> = _dishes.asStateFlow()
 
-    // Dine-In / To-Go / Delivery selection
+    // Dine-in / To-Go / Delivery
     private val _dineOption = MutableStateFlow("Dine In")
     val dineOption: StateFlow<String> = _dineOption.asStateFlow()
 
+    // Cart
+    private val _cartItems = MutableStateFlow<List<CartItem>>(emptyList())
+    val cartItems: StateFlow<List<CartItem>> = _cartItems.asStateFlow()
+
     init {
-        fetchDishes() // load initially
+        fetchDishes()
     }
 
     fun selectCategory(category: String) {
@@ -42,7 +47,7 @@ class DishViewModel : ViewModel() {
                 _dishes.value = loadedDishes
             }
             .addOnFailureListener {
-                _dishes.value = emptyList() // or log error
+                _dishes.value = emptyList()
             }
     }
 
@@ -51,6 +56,31 @@ class DishViewModel : ViewModel() {
     }
 
     fun addToCart(dish: Dish) {
-        // Add dish to cart logic (to be implemented)
+        val currentCart = _cartItems.value.toMutableList()
+        val existingItem = currentCart.find { it.dish.id == dish.id }
+
+        if (existingItem != null) {
+            existingItem.quantity += 1
+        } else {
+            currentCart.add(CartItem(dish))
+        }
+
+        _cartItems.value = currentCart
+    }
+
+    fun updateNote(dishId: String, note: String) {
+        _cartItems.value = _cartItems.value.map {
+            if (it.dish.id == dishId) it.copy(note = note) else it
+        }.toList()
+    }
+
+    fun updateQuantity(dishId: String, qty: Int) {
+        _cartItems.value = _cartItems.value.map {
+            if (it.dish.id == dishId) it.copy(quantity = qty) else it
+        }.toList()
+    }
+
+    fun removeFromCart(dishId: String) {
+        _cartItems.value = _cartItems.value.filterNot { it.dish.id == dishId }
     }
 }
